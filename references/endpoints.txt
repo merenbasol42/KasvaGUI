@@ -1,0 +1,47 @@
+
+## Endpoint'ler ve Kullanımları
+
+### HTTP Endpoint'leri
+
+1. **Ana Sayfa**
+   - **Endpoint:** `/`
+   - **Metot:** GET
+   - **Açıklama:** Uygulamanın ana sayfasını yükler
+   - **Örnek Kullanım:** `http://localhost:5000/`
+
+2. **Sistem Durumu**
+   - **Endpoint:** `/status`
+   - **Metot:** GET
+   - **Açıklama:** Sistemin geçerli durumunu JSON formatında döndürür
+   - **Dönüş Değerleri:**
+     - `ros_initialized`: ROS2 düğümünün başlatılıp başlatılmadığı
+     - `ros_connected`: ROS2 bağlantısının durumu
+     - `timestamp`: Geçerli zaman damgası
+   - **Örnek Kullanım:** `curl http://localhost:5000/status`
+
+### WebSocket Endpoint'leri
+
+1. **Robot Hareket Kontrolü**
+   - **Olay:** `cmd_vel`
+   - **Açıklama:** Robot hareket komutlarını gönderir
+   - **Parametre Örneği:**
+     ```json
+     {
+       "linear_x": 0.5,   // İleri/geri hareket hızı
+       "angular_z": 0.2   // Dönüş hızı
+     }
+     ```
+   - **Dönüş Değeri:** 
+     - Başarılı ise `{"status": "success"}`
+     - Hata durumunda `{"status": "error", "message": "Hata açıklaması"}`
+
+2. **Kamera Görüntü Akışı**
+   - **Olay:** `camera_frame`
+   - **Açıklama:** Gerçek zamanlı kamera görüntüsünü base64 kodlu olarak gönderir
+   - **İçerik:**
+     ```json
+     {
+       "image": "base64_kodlu_görüntü",
+       "timestamp": 1616161616161
+     }
+     ```
